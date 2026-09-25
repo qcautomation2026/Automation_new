@@ -1,3 +1,5 @@
+#print the number of links and their text content in the amazon website
+
 def test_count_the_links(page):
     page.goto("https://www.amazon.in/" ,wait_until="domcontentloaded")
     links_locator = page.locator("//a")

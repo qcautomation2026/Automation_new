@@ -1,3 +1,5 @@
+#locate the text on the facebook website and click on forgot password button
+
 from playwright.sync_api import sync_playwright, expect
 def test_get_by_text(page):
     page.goto("https://www.facebook.com/")

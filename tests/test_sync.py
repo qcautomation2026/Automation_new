@@ -1,3 +1,6 @@
+#print the title of the google website using sync 
+
+
 from playwright.sync_api import sync_playwright
 
 def test_example():

@@ -1,4 +1,5 @@
-#get_by_role
+#action using get_by_label, get_by_role and fill the input fields and click on register and login button in demowebshop website
+
 def test_locators(page):
    
     #register 

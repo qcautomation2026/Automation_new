@@ -1,4 +1,4 @@
-#get_by_lable
+#action using get_by_label, get_by_role
 
 def test_locators(page):
     #register 

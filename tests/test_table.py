@@ -1,3 +1,4 @@
+#print the number of tables and their content in the w3schools website
 def test_count_links(page):
     page.goto("https://www.w3schools.com/html/html_tables.asp")
     table_count=page.locator("//table").count() #how many tables are there in the page

@@ -1,3 +1,6 @@
+
+#print the number of products and their names in the demowebshop website
+
 def test_get_options(page):
     page.goto("https://demowebshop.tricentis.com/",wait_until='domcontentloaded')
     page.locator("(//a[contains(text(), 'Books')])[3]").click()

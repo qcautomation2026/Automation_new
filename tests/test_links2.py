@@ -1,3 +1,5 @@
+#list the links on the akbartravels website and click on first, last and 2nd link
+
 def test_links(page):
     page.goto("https://www.akbartravels.com/in",wait_until='domcontentloaded')
     links = page.locator("a")
