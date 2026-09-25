@@ -1,3 +1,4 @@
+#print the title of the demowebshop website and navigate to testbook website and go back and forward.and using the env files
 from utils.config import BASE_URL, USERNAME, PASSWORD
 def test_navigate(page):
     page.goto(BASE_URL)
