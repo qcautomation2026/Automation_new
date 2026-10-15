@@ -1,0 +1,9 @@
+2026-10-15 17:15:02 | INFO     | Login initilize
+2026-10-15 17:15:02 | INFO     | Log file : logs/playwright_2026-10-15_17-15-02.log
+2026-10-15 17:15:02 | INFO     | ==============Test Started ==============
+2026-10-15 17:15:06 | INFO     | open the browser naviagte to https://demowebshop.tricentis.com/
+2026-10-15 17:15:06 | INFO     | click on the login link 
+2026-10-15 17:15:06 | INFO     | BROWSER CONSOLE [VERBOSE]:[DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o
+2026-10-15 17:15:06 | INFO     | enter the email and password 
+2026-10-15 17:15:07 | INFO     | click on the login button 
+2026-10-15 17:15:12 | ERROR    | login failed
