@@ -118,14 +118,51 @@ import pytest_asyncio
 
 
 #------------------------------------Fixtures for API testing--------------------------------------------
+# @pytest_asyncio.fixture
+# async def api():
+#     async with async_playwright() as playwright:
+#         BASE_URL = "http://localhost:3000/"
+#         api = await playwright.request.new_context(
+#             base_url=BASE_URL,
+#             extra_http_headers={"Accept": "application/json"},
+#             timeout=5000
+#         )
+#         yield api
+#         await api.dispose()
+        
+        
+#------------------------Fixture for API testing with Parabank--------------------------------------------  
+
+# @pytest_asyncio.fixture
+# async def api():
+#     async with async_playwright() as playwright:
+        
+#         api = await playwright.request.new_context(
+#             base_url=("https://parabank.parasoft.com/" 
+#                       "parabank/services/bank/"),
+#             extra_http_headers={"Accept": "application/json"},
+#             # token="", github
+#             timeout=5000
+#         )
+#         print("api fixture is stated")
+#         yield api
+#         await api.dispose()
+#         print("api fixture is closed")
+         
+#---------------------Git token for API testing with Parabank--------------------------------------------  
 @pytest_asyncio.fixture
-async def api():
+async def api_git():
     async with async_playwright() as playwright:
-        BASE_URL = "http://localhost:3000/"
         api = await playwright.request.new_context(
-            base_url=BASE_URL,
-            extra_http_headers={"Accept": "application/json"},
+            base_url=("https:api.github.com"),
+            extra_http_headers={
+                "Authorization": ("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"),
+                "Accept": "application/vnd.github+json"},
+            # token="", github
             timeout=5000
         )
+        print("api fixture is stated")
         yield api
         await api.dispose()
+        print("api fixture is closed")
+            
