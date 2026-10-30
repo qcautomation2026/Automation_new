@@ -1,0 +1,27 @@
+2026-10-26 16:22:28 | INFO     | Login initilize
+2026-10-26 16:22:28 | INFO     | Log file : logs/playwright_2026-10-26_16-22-28.log
+2026-10-26 16:22:28 | INFO     | ========== TEST EXECUTION STARTED ==========
+2026-10-26 16:22:30 | INFO     | Launching browser: Chromium
+2026-10-26 16:22:30 | INFO     | Opening Demo Web Shop
+2026-10-26 16:22:33 | INFO     | Page title: Demo Web Shop
+2026-10-26 16:23:03 | ERROR    | TEST RESULT: FAILED
+Traceback (most recent call last):
+  File "/home/user/Documents/New_playwrite/tests/logs_oct15/test_logs.py", line 131, in test_main
+    await search_box.fill("book")
+  File "/home/user/Documents/New_playwrite/.venv/lib/python3.10/site-packages/playwright/async_api/_generated.py", line 18412, in fill
+    await self._impl_obj.fill(
+  File "/home/user/Documents/New_playwrite/.venv/lib/python3.10/site-packages/playwright/_impl/_locator.py", line 219, in fill
+    return await self._frame.fill(self._selector, strict=True, **params)
+  File "/home/user/Documents/New_playwrite/.venv/lib/python3.10/site-packages/playwright/_impl/_frame.py", line 637, in fill
+    await self._fill(**locals_to_params(locals()))
+  File "/home/user/Documents/New_playwrite/.venv/lib/python3.10/site-packages/playwright/_impl/_frame.py", line 649, in _fill
+    await self._channel.send("fill", self._timeout, locals_to_params(locals()))
+  File "/home/user/Documents/New_playwrite/.venv/lib/python3.10/site-packages/playwright/_impl/_connection.py", line 76, in send
+    return await self._connection.wrap_api_call(
+  File "/home/user/Documents/New_playwrite/.venv/lib/python3.10/site-packages/playwright/_impl/_connection.py", line 632, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TimeoutError: Locator.fill: Timeout 30000ms exceeded.
+Call log:
+  - waiting for get_by_role("textbox", name="Search store")
+
+2026-10-26 16:23:03 | INFO     | ========== TEST EXECUTION FINISHED ==========

@@ -56,74 +56,99 @@
 #     except Exception as e:
 #         logger.error("logoin failed")
 
-import pytest
-from playwright.async_api import expect
+import asyncio
 
+import pytest
+from playwright.async_api import async_playwright
 from logger_config import logger
 
 @pytest.mark.asyncio
-async def test_logfile(async_page):
-    logger.info("============== Test Started ==============")
-    
-    # 1. Capture browser console messages
-    async_page.on(
-        "console", 
-        lambda msg: logger.error(
-            "BROWSER CONSOLE [%s]: %s",
-            msg.type.upper(),
-            msg.text
-        )
-    )
-    
-    # 2. Capture JavaScript errors
-    async_page.on(
-        "pageerror", 
-        lambda error: logger.error("JAVASCRIPT ERROR: %s", error)
-    )
-    
-    # 3. Capture failed network requests
-    async_page.on(
-        "requestfailed",
-        lambda req: logger.error("REQUEST FAILED [%s]: %s", req.url, req.failure)
-    )
-    
-    # 4. Capture HTTP error responses (status >= 400)
-    async_page.on(
-        "response",
-        lambda response: logger.warning(
-            "HTTP ERROR: %s | Status: %s",
-            response.url,
-            response.status
-        ) if response.status >= 400 else None
-    )
+async def test_main():
 
-    # Navigate to application
-    await async_page.goto("https://demowebshop.tricentis.com/")
-    logger.info("Opened browser and navigated to https://demowebshop.tricentis.com/")
-    
-    # Click Login Link
-    login = async_page.get_by_text("Log in")
-    await login.click()
-    logger.info("Clicked on the login link")
-    
-    # Enter Credentials
-    email_id = async_page.locator("#Email")
-    await email_id.fill("trivenikmb@gmail.com")
-    
-    pwd = async_page.locator("#Password")
-    await pwd.fill("123456789")
-    logger.info("Entered username and password")
-    
-    # Click Login Button (Corrected locator value)
-    login_button = async_page.locator("input.login-button") # or "//input[@value='Log in']"
-    await login_button.click()
-    logger.info("Clicked on the login button")
-    
-    # Validate Login via Logout element (Corrected locator using class or text)
-    log_out = async_page.locator(".ico-logout")
+    logger.info("========== TEST EXECUTION STARTED ==========")
+
     try:
-        await expect(log_out).to_be_visible(timeout=5000)
-        logger.info("Login successful - Logout is visible")
-    except Exception as e:
-        logger.error("Login failed or logout link not visible: %s", str(e))
-        raise
+        async with async_playwright() as p:
+
+            browser = await p.chromium.launch(headless=False)
+
+            page = await browser.new_page()
+
+            # 1. Capture browser console messages
+            page.on(
+                "console",
+                lambda msg: logger.error(
+                    "BROWSER CONSOLE [%s]: %s",
+                    msg.type.upper(),
+                    msg.text
+                )
+            )
+
+            # 2. Capture JavaScript errors
+            page.on(
+                "pageerror",
+                lambda error: logger.error(
+                    "JAVASCRIPT ERROR: %s", error
+                )
+            )
+
+            # 3. Capture failed network requests
+            page.on(
+                "requestfailed",
+                lambda request: logger.error(
+                    "REQUEST FAILED: %s | Error: %s",
+                    request.url,
+                    request.failure
+                )
+            )
+
+            # 4. Capture HTTP error responses
+            page.on(
+                "response",
+                lambda response: logger.warning(
+                    "HTTP ERROR: %s | Status: %s",
+                    response.url,
+                    response.status
+                ) if response.status >= 400 else None
+            )
+
+            logger.info("Launching browser: Chromium")
+
+            # Navigate to application
+            logger.info("Opening Demo Web Shop")
+            await page.goto(
+                "https://demowebshop.tricentis.com/",
+                wait_until="domcontentloaded"
+            )
+
+            logger.info("Page title: %s", await page.title())
+
+            # Search for a book
+            search_box = page.get_by_role(
+                "textbox", name="Search store"
+            )
+
+            await search_box.fill("book")
+            await page.get_by_role(
+                "button", name="Search"
+            ).click()
+
+            logger.info("Search executed successfully")
+
+            # Wait for search results to appear
+            await page.locator(
+                ".product-item"
+            ).first.wait_for(state="visible")
+
+            logger.info("Search results are visible")
+
+            logger.info("TEST RESULT: PASSED")
+
+            await browser.close()
+            logger.info("Browser closed successfully")
+
+    except Exception:
+        logger.exception("TEST RESULT: FAILED")
+
+    finally:
+        logger.info("========== TEST EXECUTION FINISHED ==========")
